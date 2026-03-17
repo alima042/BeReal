@@ -1,52 +1,47 @@
-# Project 2 - BeReal Clone PT 1
+# Unit 2 Lab: Instaparse Foundation
 
-Submitted by: **Alfredo Lima**
+**Student Name:** Alfredo Lima
+**Panther ID:** 5867669
+**Section:** COP4655
+**Semester:** Spring
+**Email:** alfredn.lima210@gmail.com
 
-**BeReal Clone PT 1** is an app that allows users to post photos of what they're currently doing, featuring full user authentication and photo uploading using Parse backend.
+---
 
-Time spent: **3** hours spent in total
+## Overview
 
-## Required Features
+This repository contains the foundation code for **Instaparse** developed during Unit 2. It is an Instagram-like social media clone built natively for iOS using **Swift** and **UIKit**. 
 
-The following **required** functionality is completed:
+The main objective of this unit was to integrate the **Parse Swift SDK** to establish a secure connection with a remote **Back4App Parse Server**, form the fundamental data structures, and handle user and media operations asynchronously.
 
-- [x] Users see an app icon in the home screen and a styled launch screen.
-- [x] User can register a new account
-- [x] User can log in with newly created account
-- [x] App has a feed of posts when user logs in
-- [x] User can upload a new post which takes in a picture from photo library and an optional caption    
-- [x] User is able to logout    
- 
-The following **optional** features are implemented:
+## Features Implemented
 
-- [x] Users can pull to refresh their feed and see a loading indicator
-- [x] Users can infinite-scroll in their feed to see past the 10 most recent photos
-- [ ] Users can see location and time of photo upload in the feed   
-- [x] User stays logged in when app is closed and open again    
+* **Backend Integration Setup:** 
+  * Configured `AppDelegate.swift` to securely initialize `ParseSwift` using the Application ID and Client Key provisioned from the Back4App workspace.
+* **Persistent Sessions & Authentication:** 
+  * Implemented `User.signup` and `User.login` Parse methods to safely cache login tokens.
+  * Added `SceneDelegate` checks to automatically direct authenticated users to the Feed screen, bypassing the login sequence.
+  * Successfully set up a Log Out mechanism that triggers the `User.logout` closure and resets the session safely.
+* **Feed Representation:**
+  * Displays a chronological list of posts from the remote Parse DB sorted descendingly by `createdAt`.
+  * Customized `UITableView` data models fetching linked user names (`.include("user")`), post captions, and remote images via `AlamofireImage`.
+* **Post Creation:**
+  * Used `PHPickerViewController` for single-image selection from the user's photo library.
+  * Encapsulated `UIImage` conversions into `ParseFile(name: data:)` allowing seamless, lightweight media uploads to the Parse Cloud.
 
-## Video Walkthrough
+## Models
+* `User.swift`: Conforms to `ParseUser` to manage core credentials and custom properties linked to accounts.
+* `Post.swift`: Conforms to `ParseObject` maintaining references to text (`caption`), binary images (`imageFile`), and the authoring User object (`user`).
 
-Here's a walkthrough of implemented user stories:
+## Setup & Running Instructions
 
-<img src='https://submissions.us-east-1.linodeobjects.com/ios102_swiftUI/QrNGpkDR.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+1. **Open the Project:**
+   Navigate into the `lab_2` directory and open the `.xcodeproj` file.
+2. **Swift Package Manager:**
+   Xcode will automatically resolve the necessary dependencies (`Parse-Swift`, `Alamofire`, `AlamofireImage`). Ensure you have an active internet connection.
+3. **Build and Run:**
+   * Select a target simulator (e.g., iPhone 14 Pro).
+   * Press `Cmd + R` or click the Play button to load the login screen. Note that login testing requires the Back4App database to remain active.
 
-
-## Notes
-
-Used ParseSwift SDK to manage authentication (Signup, Login, Logout) and to fetch/upload Posts safely to the Back4App database backend. Handled image resizing and Data conversion using Alamofire and AlamofireImage.
-
-## License
-
-    Copyright [2026] [Alfredo Lima]
-
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-
-        http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
+---
+*Created for COP4655 - Unit 2 Advanced iOS Programming Module.*
